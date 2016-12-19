@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import org.apache.derby.jdbc.ClientDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import sf.crom.beans.Circle;
@@ -35,31 +36,44 @@ public class Circledto {
 		String sql = "SELECT COUNT(*) FROM CIRCLE";
 		return jdbctemplate.queryForInt(sql);
 	}
-	
-	public String getCircleName(int circleId){
+
+	public String getCircleName(int circleId) {
 		String sql = "SELECT NAME FROM CIRCLE WHERE ID = ?";
-		return (String)jdbctemplate.queryForObject(sql, new Object[]{circleId}, String.class);
-		
+		return (String) jdbctemplate.queryForObject(sql,
+				new Object[] { circleId }, String.class);
+
 	}
 
-	public Circle getCircle(int circleID) throws SQLException,
-			InstantiationException, IllegalAccessException,
-			ClassNotFoundException {
-		// Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
-		// Connection con = DriverManager
-		// .getConnection("jdbc:derby://localhost:1527/db");
-		Connection con = datasource.getConnection();
-		PreparedStatement statement = con
-				.prepareStatement("select * from circle where id = ?");
-		statement.setInt(1, circleID);
-		ResultSet rs = statement.executeQuery();
-		Circle circle = null;
-		if (rs.next()) {
-			circle = new Circle(circleID, rs.getString("name"));
-		}
-		statement.close();
-		con.close();
+	public Circle getCircle(int circleID) {
+		String sql = "SELECT * FROM CIRCLE WHERE ID = ?";
+		Circle circle = jdbctemplate.queryForObject(sql,
+				new Object[] { circleID }, new CircleRowMapper());
 		return circle;
+
 	}
 
+	private static final class CircleRowMapper implements RowMapper<Circle> {
+
+		public Circle mapRow(ResultSet resultSet, int rowNum)
+				throws SQLException {
+			Circle circle = new Circle();
+			circle.setCircleID(resultSet.getInt("ID"));
+			circle.setName(resultSet.getString("NAME"));
+			return circle;
+		}
+
+	}
+
+	/*
+	 * public Circle getCircle(int circleID) throws SQLException,
+	 * InstantiationException, IllegalAccessException, ClassNotFoundException {
+	 * // Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance(); //
+	 * Connection con = DriverManager //
+	 * .getConnection("jdbc:derby://localhost:1527/db"); Connection con =
+	 * datasource.getConnection(); PreparedStatement statement = con
+	 * .prepareStatement("select * from circle where id = ?");
+	 * statement.setInt(1, circleID); ResultSet rs = statement.executeQuery();
+	 * Circle circle = null; if (rs.next()) { circle = new Circle(circleID,
+	 * rs.getString("name")); } statement.close(); con.close(); return circle; }
+	 */
 }

@@ -7,6 +7,9 @@ public class Circle {
 		this.circleID = circleID;
 		this.name = name;
 	}
+	public Circle() {
+		// TODO Auto-generated constructor stub
+	}
 	public int getCircleID() {
 		return circleID;
 	}

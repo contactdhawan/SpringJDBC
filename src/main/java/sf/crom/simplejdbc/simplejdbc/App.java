@@ -25,5 +25,6 @@ public class App {
 		 */
 		System.out.println(dto.getCircleCount());
 		System.out.println(dto.getCircleName(2));
+		System.out.println(dto.getCircle(2).getCircleID());
 	}
 }
