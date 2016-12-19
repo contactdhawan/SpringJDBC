@@ -58,6 +58,12 @@ public class Circledto {
 				.query("SELECT * FROM CIRCLE", new CircleRowMapper());
 	}
 
+	public void insertCircle(Circle circle) {
+		String sql = "INSERT INTO CIRCLE(ID,NAME) VALUES(?,?)";
+		jdbctemplate.update(sql,
+				new Object[] { circle.getCircleID(), circle.getName() });
+	}
+
 	private static final class CircleRowMapper implements RowMapper<Circle> {
 
 		public Circle mapRow(ResultSet resultSet, int rowNum)
@@ -68,6 +74,11 @@ public class Circledto {
 			return circle;
 		}
 
+	}
+	
+	public void createTriangle(){
+		String sql = "CREATE TABLE TRIANGLE (TRIANGLEID INTEGER,TRIANGLENAME VARCHAR(50))";
+		jdbctemplate.execute(sql);
 	}
 
 	/*

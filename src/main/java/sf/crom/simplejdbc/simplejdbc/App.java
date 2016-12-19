@@ -34,5 +34,7 @@ public class App {
 			System.out.println(circle.getCircleID() + " " + circle.getName());
 		}
 
+		dto.insertCircle(new Circle(4, "Shayam"));
+		dto.createTriangle();
 	}
 }
