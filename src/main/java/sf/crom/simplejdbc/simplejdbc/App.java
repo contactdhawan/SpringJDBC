@@ -1,6 +1,8 @@
 package sf.crom.simplejdbc.simplejdbc;
 
 import java.sql.SQLException;
+import java.util.List;
+
 import org.apache.commons.dbcp.BasicDataSource;
 
 import org.springframework.context.support.AbstractApplicationContext;
@@ -26,5 +28,11 @@ public class App {
 		System.out.println(dto.getCircleCount());
 		System.out.println(dto.getCircleName(2));
 		System.out.println(dto.getCircle(2).getCircleID());
+
+		List<Circle> circles = dto.getCircles();
+		for (Circle circle : circles) {
+			System.out.println(circle.getCircleID() + " " + circle.getName());
+		}
+
 	}
 }

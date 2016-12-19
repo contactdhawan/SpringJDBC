@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -50,6 +51,11 @@ public class Circledto {
 				new Object[] { circleID }, new CircleRowMapper());
 		return circle;
 
+	}
+
+	public List<Circle> getCircles() {
+		return jdbctemplate
+				.query("SELECT * FROM CIRCLE", new CircleRowMapper());
 	}
 
 	private static final class CircleRowMapper implements RowMapper<Circle> {
