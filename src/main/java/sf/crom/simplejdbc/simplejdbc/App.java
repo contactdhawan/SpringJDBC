@@ -1,6 +1,7 @@
 package sf.crom.simplejdbc.simplejdbc;
 
 import java.sql.SQLException;
+import org.apache.commons.dbcp.BasicDataSource;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
